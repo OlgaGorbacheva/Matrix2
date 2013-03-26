@@ -70,8 +70,18 @@ UsingType const & my::vector<UsingType>::operator[](unsigned int const k) const
 template <class UsingType>
 UsingType & my::vector<UsingType>::operator[](unsigned int const k)
 {
-    if (k >= VectorSize)
-        throw "Unexpectable index";
+    if (k >= VectorSize){
+        try{
+            while (k * sizeof(UsingType) >= MemorySize)
+                MemoryGrow();
+        }
+        catch(bad_alloc){
+            abort();
+        }
+        for (;VectorSize <= k; VectorSize++){
+            new (Pointer + VectorSize) UsingType();
+        }
+    }
     UsingType & Obj = Pointer[k];
     return Obj;
 }

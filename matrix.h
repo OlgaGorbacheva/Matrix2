@@ -24,23 +24,28 @@ class my::matrix
 {
 private:
 
-    my::vector<UsingType>* Pointer;
+    my::vector<my::vector<UsingType> > Data;
     unsigned int m;
     unsigned int n;
 
 public:
 
-    explicit matrix();
-    explicit matrix(unsigned int _n);
-    explicit matrix(unsigned int _m, unsigned int _n);
-    explicit matrix(const matrix<UsingType> & _matrix);
+    /*explicit*/ matrix();
+    /*explicit*/ matrix(unsigned int _n);
+    /*explicit*/ matrix(unsigned int _m, unsigned int _n);
+    /*explicit*/ matrix(const matrix<UsingType> & _matrix);
 
     ~matrix();
 
     void operator=(const matrix<UsingType> & _matrix);
     my::vector<UsingType> const & operator[] (unsigned int i) const;
     my::vector<UsingType> & operator[] (unsigned int i);
-    my::matrix<UsingType> & operator+ (my::matrix<UsingType> const &_matrix);
+    my::matrix<UsingType> operator+ (my::matrix<UsingType> const &_matrix);
+    my::matrix<UsingType> operator+ (UsingType const &elem);
+    my::matrix<UsingType> operator+ ();
+    my::matrix<UsingType> operator- (my::matrix<UsingType> const &_matrix);
+    my::matrix<UsingType> operator- ();
+
 
     template<class T>
     friend istream & operator>> (istream &cin, my::matrix<T> &_matrix);

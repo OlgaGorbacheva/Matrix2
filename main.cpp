@@ -19,13 +19,15 @@ int main()
     my::matrix<> k(5);
     c = k;
     my::matrix<float> l(3, 4);
-    a[1][1] = 5;
-    a[0][1] = 6;
-    l[1][5] = 10;
-    cout << a[0][1] << endl << a[1][1] << endl << l[1][5] << endl;
     fin >> b;
     fin >> a;
     c = b + a;
-    cout << c;
+    cout << c << endl;
+    cout << +c << endl;
+    c = b - a;
+    cout << c << endl;
+    cout << -c << endl;
+    c = a + 5;
+    cout << c << endl;
     return 0;
 }

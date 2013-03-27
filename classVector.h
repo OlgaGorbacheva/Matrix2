@@ -4,7 +4,7 @@
 #include <string.h>
 #include <iostream>
 #include <stdlib.h>
-#define MIN_MEMORY_SIZE 200
+#define MIN_MEMORY_SIZE 4
 
 using namespace std;
 
@@ -20,7 +20,7 @@ class my::vector
 private:
     unsigned int VectorSize; //number of elements
     unsigned int MemorySize; //number of bytes allocated from heap
-    UsingType* Pointer;  //pointer to begin of vector
+    char* Pointer;  //pointer to begin of vector
     void MemoryGrow(); //to reallocate memory
 public:
     explicit vector();

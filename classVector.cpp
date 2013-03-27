@@ -5,8 +5,8 @@
 template <class UsingType>
 void my::vector<UsingType>::MemoryGrow()
 {
-    UsingType* BufPointer;
-    BufPointer = (UsingType*) new char[MemorySize * 2];
+    char* BufPointer;
+    BufPointer = new char[MemorySize * 2];
     memcpy(BufPointer, Pointer, MemorySize);
     MemorySize = MemorySize * 2;
     Pointer = BufPointer;
@@ -16,45 +16,48 @@ template <class UsingType>
 my::vector<UsingType>::vector(): VectorSize(0),
                                  MemorySize(MIN_MEMORY_SIZE * sizeof(UsingType))
 {
-    Pointer = (UsingType*) new char[MemorySize];
+    Pointer = new char[MemorySize];
 }
 
 template <class UsingType>
 my::vector<UsingType>::vector(unsigned int _MemorySize): VectorSize(0),
                                                          MemorySize(_MemorySize * sizeof(UsingType))
 {
-    Pointer = (UsingType*) new char[MemorySize];
+    Pointer = new char[MemorySize];
 }
 
 template <class UsingType>
 my::vector<UsingType>::vector(my::vector<UsingType> const & _vector): VectorSize(_vector.VectorSize),
                                                                       MemorySize(_vector.MemorySize)
 {
-    Pointer = (UsingType*) new char[MemorySize];
+    Pointer = new char[MemorySize];
     for (unsigned int i = 0; i < VectorSize; i++){
-        new (Pointer + i) UsingType();
-        Pointer[i] = _vector[i];
+        new ((UsingType*)Pointer + i) UsingType();
+        *((UsingType*)Pointer + i)= _vector[i];
     }
 }
 
 template <class UsingType>
 my::vector<UsingType>::~vector()
 {
+    for (unsigned int i = 0; i < VectorSize; i++){
+        ((UsingType*)Pointer + i)->~UsingType();
+    }
     delete[] Pointer;
 }
 
 template <class UsingType>
 void my::vector<UsingType>::operator=(my::vector<UsingType> const & _vector)
 {
-    UsingType* BufPointer;
-    BufPointer = (UsingType*) new char[_vector.MemorySize];
+    char* BufPointer;
+    BufPointer = new char[_vector.MemorySize];
     delete[] Pointer;
     Pointer = BufPointer;
     MemorySize = _vector.MemorySize;
     VectorSize = _vector.VectorSize;
     for (unsigned int i = 0; i < VectorSize; i++){
-        new (Pointer + i) UsingType();
-        Pointer[i] = _vector[i];
+        new ((UsingType*)Pointer + i) UsingType();
+        *((UsingType*)Pointer + i) = _vector[i];
     }
 }
 
@@ -63,7 +66,7 @@ UsingType const & my::vector<UsingType>::operator[](unsigned int const k) const
 {
     if (k >= VectorSize)
         throw "Unexpectable index";
-    UsingType const & Obj = Pointer[k];
+    UsingType const & Obj = *((UsingType*)Pointer + k);
     return Obj;
 }
 
@@ -79,10 +82,10 @@ UsingType & my::vector<UsingType>::operator[](unsigned int const k)
             abort();
         }
         for (;VectorSize <= k; VectorSize++){
-            new (Pointer + VectorSize) UsingType();
+            new ((UsingType*)Pointer + VectorSize) UsingType();
         }
     }
-    UsingType & Obj = Pointer[k];
+    UsingType & Obj = *((UsingType*)Pointer + k);
     return Obj;
 }
 
@@ -98,7 +101,7 @@ void my::vector<UsingType>::PushBack(UsingType elem)
             abort();
         }
     }
-    Pointer[VectorSize] = elem;
+    *((UsingType*)Pointer + VectorSize) = elem;
 }
 
 template <class UsingType>

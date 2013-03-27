@@ -11,23 +11,9 @@ int main()
         cerr << "Input error" << endl;
         return 0;
     }
-    my::matrix<> a;
-    my::matrix<> b(a);
-    my::matrix<> c;
-    c = a;
-    my::matrix<double> d;
-    my::matrix<> k(5);
-    c = k;
-    my::matrix<float> l(3, 4);
-    fin >> b;
+    my::matrix<> a(2, 3), b(3, 3);
     fin >> a;
-    c = b + a;
-    cout << c << endl;
-    cout << +c << endl;
-    c = b - a;
-    cout << c << endl;
-    cout << -c << endl;
-    c = a + 5;
-    cout << c << endl;
+    fin >> b;
+    cout << a * b * 2;
     return 0;
 }

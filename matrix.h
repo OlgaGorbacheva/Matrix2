@@ -30,10 +30,12 @@ private:
 
 public:
 
-    /*explicit*/ matrix();
-    /*explicit*/ matrix(unsigned int _n);
-    /*explicit*/ matrix(unsigned int _m, unsigned int _n);
-    /*explicit*/ matrix(const matrix<UsingType> & _matrix);
+    matrix();
+    matrix(unsigned int _n);
+    matrix(unsigned int _m, unsigned int _n);
+    matrix(matrix<UsingType> const & _matrix);
+    matrix(UsingType elem, unsigned int _m, unsigned int _n);
+    matrix(my::vector<UsingType> const &_Data, unsigned int _m, unsigned int _n);
 
     ~matrix();
 
@@ -41,11 +43,11 @@ public:
     my::vector<UsingType> const & operator[] (unsigned int i) const;
     my::vector<UsingType> & operator[] (unsigned int i);
     my::matrix<UsingType> operator+ (my::matrix<UsingType> const &_matrix);
-    my::matrix<UsingType> operator+ (UsingType const &elem);
     my::matrix<UsingType> operator+ ();
     my::matrix<UsingType> operator- (my::matrix<UsingType> const &_matrix);
     my::matrix<UsingType> operator- ();
-
+    my::matrix<UsingType> operator* (my::matrix<UsingType> const &_matrix);
+    my::matrix<UsingType> operator* (const UsingType elem);
 
     template<class T>
     friend istream & operator>> (istream &cin, my::matrix<T> &_matrix);

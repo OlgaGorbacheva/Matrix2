@@ -57,9 +57,9 @@ my::matrix<UsingType>::~matrix()
 ///////////////////////
 
 template<class UsingType>
-my::vector<UsingType> my::matrix<UsingType>::getRow(int _i) const
+void my::matrix<UsingType>::getRow(int _i, my::vector<UsingType> &retVal) const
 {
-    return Data[_i];
+    retVal = Data[_i];
 }
 
 template<class UsingType>
@@ -111,7 +111,7 @@ void my::matrix<UsingType>::operator=(const matrix<UsingType> & _matrix)
 }
 
 template<class UsingType>
-my::matrix<UsingType> my::matrix<UsingType>::operator+ (my::matrix<UsingType> const &_matrix)
+my::matrix<UsingType> my::matrix<UsingType>::operator+ (my::matrix<UsingType> const &_matrix) const
 {
     if (m != _matrix.m || n != _matrix.n)
         throw "Unexpectable argument";
@@ -123,14 +123,14 @@ my::matrix<UsingType> my::matrix<UsingType>::operator+ (my::matrix<UsingType> co
 }
 
 template<class UsingType>
-my::matrix<UsingType> my::matrix<UsingType>::operator+ ()
+my::matrix<UsingType> my::matrix<UsingType>::operator+ () const
 {
     my::matrix<UsingType> help(*this);
     return help;
 }
 
 template<class UsingType>
-my::matrix<UsingType> my::matrix<UsingType>::operator- (my::matrix<UsingType> const &_matrix)
+my::matrix<UsingType> my::matrix<UsingType>::operator- (my::matrix<UsingType> const &_matrix) const
 {
     if (m != _matrix.m || n != _matrix.n)
         throw "Unexpectable argument";
@@ -142,7 +142,7 @@ my::matrix<UsingType> my::matrix<UsingType>::operator- (my::matrix<UsingType> co
 }
 
 template<class UsingType>
-my::matrix<UsingType> my::matrix<UsingType>::operator- ()
+my::matrix<UsingType> my::matrix<UsingType>::operator- () const
 {
     my::matrix<UsingType> help(*this);
     for (unsigned int i = 0; i < m; i++)
@@ -152,7 +152,7 @@ my::matrix<UsingType> my::matrix<UsingType>::operator- ()
 }
 
 template<class UsingType>
-my::matrix<UsingType> my::matrix<UsingType>::operator* (my::matrix<UsingType> const &_matrix)
+my::matrix<UsingType> my::matrix<UsingType>::operator* (my::matrix<UsingType> const &_matrix) const
 {
     if (n != _matrix.m){
         throw "Unexpectable argument";
@@ -167,7 +167,7 @@ my::matrix<UsingType> my::matrix<UsingType>::operator* (my::matrix<UsingType> co
 }
 
 template<class UsingType>
-my::matrix<UsingType> my::matrix<UsingType>::operator* (const UsingType elem)
+my::matrix<UsingType> my::matrix<UsingType>::operator* (const UsingType elem) const
 {
     my::matrix<UsingType> help(*this);
     for (unsigned int i = 0; i < m; i++)
@@ -225,7 +225,7 @@ my::matrix<UsingType> my::matrix<UsingType>::SubMatrix(int _i, int _j) const
 }
 
 template<class UsingType>
-my::matrix<UsingType>::LUP<> my::matrix<UsingType>::FindLUP()// PA = LU
+my::matrix<UsingType>::LUP<> my::matrix<UsingType>::FindLUP() const// PA = LU
 {
     if (m != n)
         throw "The matrix is not square.";
@@ -284,7 +284,7 @@ my::matrix<UsingType>::LUP<> my::matrix<UsingType>::FindLUP()// PA = LU
 
 template<class UsingType>
 void my::matrix<UsingType>::SolveLUP(my::matrix<UsingType>::LUP<> &_LUP, my::vector<UsingType> &b,
-                                                   my::vector<double> &retVal)
+                                                   my::vector<double> &retVal) const
 {
     my::vector<double> solution;
     my::vector<double> help;
@@ -303,8 +303,10 @@ void my::matrix<UsingType>::SolveLUP(my::matrix<UsingType>::LUP<> &_LUP, my::vec
     retVal = solution;
 }
 
+////////////////////////
+
 template<class UsingType>
-my::matrix<UsingType> my::matrix<UsingType>::transpose()
+my::matrix<UsingType> my::matrix<UsingType>::transpose() const
 {
     my::matrix<UsingType> help(n, m);
     for (int i = 0; i < help.m; i++)
@@ -314,7 +316,7 @@ my::matrix<UsingType> my::matrix<UsingType>::transpose()
 }
 
 template<class UsingType>
-my::matrix<double> my::matrix<UsingType>::inverse()
+my::matrix<double> my::matrix<UsingType>::inverse() const
 {
     if (m != n)
         throw "The matrix is not square.";
@@ -332,7 +334,7 @@ my::matrix<double> my::matrix<UsingType>::inverse()
 }
 
 template<class UsingType>
-double my::matrix<UsingType>::determinant()
+double my::matrix<UsingType>::determinant() const
 {
     if (m != n)
         throw "The matrix is not square.";
@@ -353,4 +355,16 @@ double my::matrix<UsingType>::determinant()
         val *= -1;
     }
     return val;
+}
+
+template<class UsingType>
+UsingType my::matrix<UsingType>::track() const
+{
+    if (m != n)
+        throw "The matrix is not square.";
+    UsingType tr = 0;
+    for (unsigned int i = 0; i < m; i++){
+        tr += (*this)[i][i];
+    }
+    return tr;
 }

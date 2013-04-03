@@ -39,8 +39,8 @@ private:
         my::vector<int> change;
     };
 
-    LUP<> FindLUP();
-    void SolveLUP(LUP<> & _LUP, my::vector<UsingType> &b, my::vector<double> &retVal);
+    LUP<> FindLUP() const;
+    void SolveLUP(LUP<> & _LUP, my::vector<UsingType> &b, my::vector<double> &retVal) const;
 
 public:
 
@@ -53,15 +53,15 @@ public:
 
     ~matrix();
 
-    void operator=(const matrix<UsingType> & _matrix);
+    void operator= (const matrix<UsingType> & _matrix);
     my::vector<UsingType> const & operator[] (unsigned int i) const;
     my::vector<UsingType> & operator[] (unsigned int i);
-    my::matrix<UsingType> operator+ (my::matrix<UsingType> const &_matrix);
-    my::matrix<UsingType> operator+ ();
-    my::matrix<UsingType> operator- (my::matrix<UsingType> const &_matrix);
-    my::matrix<UsingType> operator- ();
-    my::matrix<UsingType> operator* (my::matrix<UsingType> const &_matrix);
-    my::matrix<UsingType> operator* (const UsingType elem);
+    my::matrix<UsingType> operator+ (my::matrix<UsingType> const &_matrix) const;
+    my::matrix<UsingType> operator+ () const;
+    my::matrix<UsingType> operator- (my::matrix<UsingType> const &_matrix) const;
+    my::matrix<UsingType> operator- () const;
+    my::matrix<UsingType> operator* (my::matrix<UsingType> const &_matrix) const;
+    my::matrix<UsingType> operator* (const UsingType elem) const;
 
     template<class T>
     friend istream & operator>> (istream &cin, my::matrix<T> &_matrix);
@@ -69,17 +69,17 @@ public:
     friend ostream & operator<< (ostream &cout, my::matrix<T> const &_matrix);
 
     void getColumn(int _j, my::vector<UsingType> & retVal) const;
-    my::vector<UsingType> getRow(int _i) const;
+    void getRow(int _i, my::vector<UsingType>& ) const;
     void setRow(my::vector<UsingType>& _row, int _i);
     void setColumn(my::vector<UsingType>& _column, int _j);
 
     my::matrix<UsingType> SubMatrix(int i, int j) const;
-
-    my::matrix<UsingType> transpose();
-    my::matrix<double> inverse();
-    double determinant();
-
     void swapRows(unsigned int const i, unsigned const int j);
+
+    my::matrix<UsingType> transpose() const;
+    my::matrix<double> inverse() const;
+    double determinant() const;
+    UsingType track() const;
 };
 
 

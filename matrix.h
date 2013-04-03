@@ -4,6 +4,7 @@
 #include "classVector.h"
 #include <iostream>
 #include <fstream>
+#include <string.h>
 
 namespace my
 {
@@ -27,6 +28,19 @@ private:
     my::vector<my::vector<UsingType> > Data;
     unsigned int m;
     unsigned int n;
+
+    template<class T = double>
+    class LUP{
+    public:
+        my::matrix<T> L;
+        my::matrix<T> U;
+        my::matrix<T> P;
+        int k; //число перестановок строк единичной матрицы
+        my::vector<int> change;
+    };
+
+    LUP<> FindLUP();
+    void SolveLUP(LUP<> & _LUP, my::vector<UsingType> &b, my::vector<double> &retVal);
 
 public:
 
@@ -53,7 +67,21 @@ public:
     friend istream & operator>> (istream &cin, my::matrix<T> &_matrix);
     template<class T>
     friend ostream & operator<< (ostream &cout, my::matrix<T> const &_matrix);
+
+    void getColumn(int _j, my::vector<UsingType> & retVal) const;
+    my::vector<UsingType> getRow(int _i) const;
+    void setRow(my::vector<UsingType>& _row, int _i);
+    void setColumn(my::vector<UsingType>& _column, int _j);
+
+    my::matrix<UsingType> SubMatrix(int i, int j) const;
+
+    my::matrix<UsingType> transpose();
+    my::matrix<double> inverse();
+    double determinant();
+
+    void swapRows(unsigned int const i, unsigned const int j);
 };
+
 
 #include "matrix.cpp"
 

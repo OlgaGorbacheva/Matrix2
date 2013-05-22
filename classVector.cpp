@@ -7,7 +7,10 @@ void my::vector<UsingType>::MemoryGrow()
 {
     char* BufPointer;
     BufPointer = new char[MemorySize * 2];
-    memcpy(BufPointer, Pointer, MemorySize);
+    for (unsigned int i = 0; i < VectorSize; i++){
+        new ((UsingType*)BufPointer + i) UsingType();
+        *((UsingType*)BufPointer + i) = *((UsingType*)Pointer + i);
+    }
     MemorySize = MemorySize * 2;
     Pointer = BufPointer;
 }

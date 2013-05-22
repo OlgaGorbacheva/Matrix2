@@ -151,17 +151,17 @@ my::matrix<UsingType> my::matrix<UsingType>::operator- () const
     return help;
 }
 
-template<class UsingType>
-my::matrix<UsingType> my::matrix<UsingType>::operator* (my::matrix<UsingType> const &_matrix) const
+template<class T, class U>
+my::matrix<typename R<T, U>::type > my::operator* (my::matrix<T> const &_matrix1, my::matrix<U> const &_matrix2)
 {
-    if (n != _matrix.m){
+    if (_matrix1.n != _matrix2.m){
         throw "Unexpectable argument";
     }
-    my::matrix<UsingType> help(m, _matrix.n);
+    my::matrix<typename R<T, U>::type > help(_matrix1.m, _matrix2.n);
     for (unsigned int i = 0; i < help.m; i++)
         for (unsigned int j = 0; j < help.n; j++)
-            for (unsigned int k = 0; k < n; k++){
-                help[i][j] += (*this)[i][k] * _matrix[k][j];
+            for (unsigned int k = 0; k < _matrix1.n; k++){
+                help[i][j] += _matrix1[i][k] * _matrix2[k][j];
             }
     return help;
 }
@@ -258,7 +258,6 @@ my::matrix<UsingType>::LUP<> my::matrix<UsingType>::FindLUP() const// PA = LU
         }
         if( pivotValue == 0 ) { //столбец из 0 - мтрица вырождена
             throw "The matrix is singular";
-            abort();
         }
         retValue.P.swapRows(pivot, i); //меняем местами i-ю строку и строку с опорным элементом
         help.swapRows(pivot, i);

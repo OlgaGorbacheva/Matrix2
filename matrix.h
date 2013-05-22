@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include "resultType.h"
 
 namespace my
 {
@@ -16,6 +17,13 @@ namespace my
 
     template<class UsingType>
     ostream & operator<< (ostream& cout, matrix<UsingType> const &_matrix);
+
+//    template<class T, class U>
+//    typedef R<T, U>::type result;
+
+    template<class T, class U>
+    matrix<typename R<T, U>::type > operator* (matrix<T> const &_matrix1, matrix<U> const &_matrix2);
+
 }
 
 using namespace std;
@@ -60,7 +68,10 @@ public:
     my::matrix<UsingType> operator+ () const;
     my::matrix<UsingType> operator- (my::matrix<UsingType> const &_matrix) const;
     my::matrix<UsingType> operator- () const;
-    my::matrix<UsingType> operator* (my::matrix<UsingType> const &_matrix) const;
+
+    template<class T, class U>
+    friend my::matrix<typename R<T, U>::type > my::operator* (my::matrix<T> const &_matrix1, my::matrix<U> const &_matrix2);
+
     my::matrix<UsingType> operator* (const UsingType elem) const;
 
     template<class T>

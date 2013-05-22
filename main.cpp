@@ -12,8 +12,11 @@ int main()
         cerr << "Input error" << endl;
         return 0;
     }
-    my::matrix<> a(3, 3);
+    my::matrix<int> a(3, 3);
     fin >> a;
-    cout << a.determinant() << endl;
+    my::matrix<double> b(5, 5);
+//    b = a.inverse();
+    b = a * a.inverse();
+    cout << b << endl;
     return 0;
 }
